@@ -1,0 +1,29 @@
+{% extends 'Pages/index.html' %} {% block content %}
+
+<h1 style="text-align: center; font-size: 2rem; margin-bottom: 20px">
+  Congratulations!
+</h1>
+<p style="text-align: center; font-size: 1.2rem">
+  Your account has been created successfully.
+</p>
+
+<h2 style="text-align: center; font-size: 1.5rem; margin-top: 30px">
+  Customer Information:
+</h2>
+{% if messages %}
+<div class="alert success">
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+<ul style="list-style-type: none; padding: 0; text-align: center">
+  <li><strong>First Name:</strong> {{ customer_data.first_name }}</li>
+  <li><strong>Last Name:</strong> {{ customer_data.last_name }}</li>
+  <li><strong>Email:</strong> {{ customer_data.email }}</li>
+  <li><strong>Mobile:</strong> {{ customer_data.mobile }}</li>
+  <li><strong>Address:</strong> {{ customer_data.address }}</li>
+</ul>
+{% endblock %}

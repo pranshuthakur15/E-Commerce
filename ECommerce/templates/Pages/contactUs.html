@@ -1,0 +1,68 @@
+{% extends 'Pages/index.html' %}
+
+{% block title %}
+    Contact Us
+{% endblock %}
+
+{% block content %}
+    <style>
+        .container {
+            width:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 88vh;
+            margin-left:210px;
+        }
+
+        .contact-info {
+            background-color: #CCD0CF;
+            border-radius: 10px;
+            text-align: center;
+            padding: 80px;
+            width: 100vw;
+            height:88vh;
+        }
+
+        .contact-info h1 {
+            color: #333333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            font-size: 1.2rem;
+            color: #666666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p strong {
+            color: #333333;
+        }
+
+        .contact-info a {
+            display: inline-block;
+            background-color: #333333;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            background-color: #555555;
+        }
+    </style>
+
+    <div class="container">
+        <div class="contact-info">
+            <h1>Contact Us</h1>
+            <p>If you have any questions or inquiries, please feel free to contact us using the information below:</p>
+            <p><strong>Email:</strong> pranshu@skylabstech.com</p>
+            <p><strong>Phone:</strong> +91 7987822433</p>
+            <a href="{% url 'contact_us_messages' %}">Send us an email</a>
+        </div>
+    </div>
+{% endblock %}

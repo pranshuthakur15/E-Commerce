@@ -1,0 +1,117 @@
+<!-- purchase_orders.html -->
+{% extends 'Vendor/Vendor_login_success.html' %}
+
+{% block content %}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin:100px 150px 40px 50px;
+    }
+    th, td {
+        padding: 10px ;
+        border-bottom: 2px solid #333;
+    }
+    th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+    tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    input[type="number"], select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #f9f9f9;
+    }
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<h1 style="text-align: center; margin-bottom:10px">Purchase Request</h1>
+<div style="overflow-x: auto;">
+    <form method="post" >
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>PO ID</th>
+                    <th>Product Name</th>
+                    <th>HSN Code</th>
+                    <th>Item Price</th>
+                    <th>Quantity</th>
+                    <th>Offered Quantity</th>
+                    <th>Price Offered</th>
+                    <th>Discount Offered (%)</th>
+                    <th>Final Price</th>
+                    <th>Received Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in purchase_orders %}
+                {% if not order.materialrequestmodel.is_fulfilled %}
+                {% if order.is_active %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.product.hsn_code }}</td>
+                    <td>{{ order.item_price }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>
+                        <input type="number" name="offered_quantity_{{ order.id }}" required onchange="calculateFinalPrice({{ order.id }})">
+                    </td>
+                    <td>
+                        <input type="number" name="offered_price_{{ order.id }}" step="0.01" required onchange="calculateFinalPrice({{ order.id }})">
+                    </td>
+                    <td>
+                        <input type="number" name="offered_discount_{{ order.id }}" step="0.01" onchange="calculateFinalPrice({{ order.id }})">
+                    </td>
+                    <td>
+                        <input type="text" name="final_price_{{ order.id }}" readonly>
+                    </td>
+                    <td>{{ order.order_date }}</td>
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<script>
+    // Function to calculate and render final price
+    function calculateFinalPrice(orderId) {
+        var quantity = parseFloat(document.getElementsByName("offered_quantity_" + orderId)[0].value);
+        var price = parseFloat(document.getElementsByName("offered_price_" + orderId)[0].value);
+        var discount = parseFloat(document.getElementsByName("offered_discount_" + orderId)[0].value);
+        
+        var totalPrice = price * quantity;
+        var discountedPrice = totalPrice - (totalPrice * (discount / 100));
+        
+        document.getElementsByName("final_price_" + orderId)[0].value = discountedPrice.toFixed(2);
+        document.getElementsByName("final_price_" + orderId)[0].innerHTML = discountedPrice.toFixed(2);
+    }
+</script>
+{% endblock %}

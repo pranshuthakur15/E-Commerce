@@ -1,0 +1,16 @@
+{% extends 'Pages/index.html' %}
+{% block content %}
+    <h1>Search Results for "{{ query }}"</h1>
+    <div class="products-container">
+        {% for product in results %}
+        <div class="product">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <button>Add to Cart</button>
+        </div>
+        {% empty %}
+        <p>No results found.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

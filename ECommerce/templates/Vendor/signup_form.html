@@ -1,0 +1,39 @@
+{% extends 'Pages/index.html' %}
+{% block content %}
+    <div style="display: flex; justify-content: center; align-items: center; height: 70vh;">
+        <div style="text-align: center; padding-top: 10vh;padding-left:20px;padding-right:20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;height:100%; width: 100%; max-width: 100vw;">
+            <h1 style="font-size: 2rem; color: #333; margin-bottom: 30px;">Sign Up</h1>
+            <form method="post" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                {% csrf_token %}
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="vendor_name" style="font-size: 1.2rem; color: #333;">Name:</label><br>
+                    <input type="text" id="vendor_name" name="vendor_name" required style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="vendor_email" style="font-size: 1.2rem; color: #333;">Email:</label><br>
+                    <input type="email" id="vendor_email" name="vendor_email" required style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="vendor_mobile" style="font-size: 1.2rem; color: #333;">Mobile:</label><br>
+                    <input type="text" id="vendor_mobile" name="vendor_mobile" required style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis: 100%; margin-bottom: 20px;">
+                    <label for="vendor_address" style="font-size: 1.2rem; color: #333;">Address:</label><br>
+                    <input type="text" id="vendor_address" name="vendor_address" required style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="vendor_password" style="font-size: 1.2rem; color: #333;">Password:</label><br>
+                    <input type="password" id="vendor_password" name="vendor_password" required style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="vendor_confirmpassword" style="font-size: 1.2rem; color: #333;">Confirm Password:</label><br>
+                    <input type="password" id="vendor_confirmpassword" name="vendor_confirmpassword" required style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis:100%; margin-bottom: 20px;">
+                <button type="submit" style="background-color: #333; color: #fff; padding: 15px 30px; border-radius: 5px; font-size: 1.2rem; border: none; cursor: pointer; width: 60%;">Sign Up</button>    
+            </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

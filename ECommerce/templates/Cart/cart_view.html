@@ -1,0 +1,57 @@
+{% extends 'Pages/loggedIn_index.html' %}
+
+{% block title %} Cart {% endblock %}
+
+{% block content %}
+
+<div style="display: flex; justify-content: center; align-items: center; height: 70vh;">
+    <div style="padding-top: 10vh; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);text-align: center; width:100vw;height:100%;">
+        <h1 style="font-size:2rem; margin-bottom: 20px;">Cart</h1>
+        {% if messages %}
+        <div class="alert danger">
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <table style="width: 100vw; border-collapse: collapse;">
+            <thead style="background-color: #333; color: #fff;">
+                <tr>
+                    <th style="padding: 10px;">Product Name</th>
+                    <th style="padding: 10px;">Quantity</th>
+                    <th style="padding: 10px;">Price</th>
+                    <th style="padding: 10px;">Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td style="padding: 10px;">{{ item.product.name }}</td>
+                    <td style="padding: 10px;">{{ item.quantity }}</td>
+                    <td style="padding: 10px;">Rs. {{ item.product.price }}</td>
+                    <td style="padding: 10px;">
+                        <form action="{% url 'remove-from-cart' item_id=item.id costumer_id=costumer.id%}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">Remove</button>
+                        </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"><hr></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right; padding: 10px;">Subtotal:</td>
+                    <td style="padding: 10px;">Rs. {{ total }}</td>
+                </tr>
+            </tfoot>
+        </table>
+</div>
+</div>
+</div>
+    {% endblock %}

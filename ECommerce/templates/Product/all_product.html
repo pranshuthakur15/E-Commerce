@@ -1,0 +1,15 @@
+{% extends 'Pages/index.html' %}
+
+{% block content %}
+    <h1 style="padding-top:10vh;text-align: center;">All Products</h1>
+    <div style="display: flex; justify-content: center; align-items: center; height: 70vh; flex-wrap: wrap;">
+        {% for product in products %}
+        <div class="product" style="flex: 0 1 calc(30% - 40px); background-color: #fff; margin: 20px; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 1.5rem; color: #333; margin-bottom: 10px;">{{ product.name }}</h2>
+            <p style="font-size: 1.2rem; color: #666; margin-bottom: 10px;">{{ product.description }}</p>
+            <p style="font-size: 1.2rem; color: #333; margin-bottom: 10px;">Price: Rs.{{ product.price }}</p>
+            <button style="padding: 10px 20px; font-size: 1rem; border: none; background-color: #333; color: #fff; border-radius: 5px; cursor: pointer;">Add to Cart</button>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

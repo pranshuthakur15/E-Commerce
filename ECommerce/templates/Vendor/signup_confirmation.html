@@ -1,0 +1,19 @@
+{% extends 'Pages/index.html' %} {% block content %}
+
+<h1 style="text-align: center; font-size: 2rem; margin-bottom: 20px">
+  Congratulations!
+</h1>
+<p style="text-align: center; font-size: 1.2rem">
+  Your account has been created successfully.
+</p>
+
+<h2 style="text-align: center; font-size: 1.5rem; margin-top: 30px">
+  Vendor Information:
+</h2>
+<ul style="list-style-type: none; padding: 0; text-align: center">
+  <li><strong>First Name:</strong> {{ vendor.name }}</li>
+  <li><strong>Email:</strong> {{ vendor.email }}</li>
+  <li><strong>Mobile:</strong> {{ vendor.mobile }}</li>
+  <li><strong>Address:</strong> {{ vendor.address }}</li>
+</ul>
+{% endblock %}

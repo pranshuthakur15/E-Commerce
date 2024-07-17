@@ -1,0 +1,43 @@
+{% extends "Admin/adminLoggedin.html" %}
+
+{% block content %}
+<style>
+  .vendor-list {
+    margin: 120px 20px 50px 200px ;
+    width: 60%;
+  }
+
+  .vendor-btn {
+    display: block;
+    width: 200px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .vendor-btn:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<h1>List of Vendors</h1>
+
+<div class="vendor-list">
+  <ul>
+    {% for vendor in vendors %}
+    <li>
+      <form action="{% url 'vendorDetails' admin_id=admin.id vendor_id=vendor.id %}" method="get">
+        <button type="submit" class="vendor-btn">{{ vendor.vendor_name }}</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock content %}

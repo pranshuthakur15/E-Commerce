@@ -1,0 +1,232 @@
+{% extends 'Admin/adminLoggedin.html' %}
+
+{% block content %}
+<style>
+  form {
+    margin: 200px 20px 50px 400px;
+  }
+
+  .form-control {
+    height: 3rem;
+    padding: 0.5rem;
+    width: 100%;
+    margin-left: 3px;
+}
+
+
+.row {
+    margin-bottom: 20px;
+}
+
+
+.vendor-input {
+    height: 3rem;
+    padding: 0.5rem;
+    width: 30%;
+    margin-right: 18rem;
+    float: left;
+}
+
+
+.po-id-input {
+
+    height: 3rem;
+    padding: 0.5rem;
+    width: 30%;
+    margin-left:0rem 0rem 2rem 18rem;
+    float: right;
+}
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin:100px 150px 40px 10px;
+    margin-bottom: 10px;
+  }
+
+  .product-table th,
+  .product-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .buttons {
+    appearance: none;
+    background-color: #2ea44f;
+    border: 1px solid rgba(27, 31, 35, .15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 6px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+   }
+   
+   .buttons:focus:not(:focus-visible):not(.focus-visible) {
+    box-shadow: none;
+    outline: none;
+   }
+   
+   .buttons:hover {
+    background-color: #2c974b;
+   }
+   
+   .buttons:focus {
+    box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+    outline: none;
+   }
+   
+   .buttons:disabled {
+    background-color: #94d3a2;
+    border-color: rgba(27, 31, 35, .1);
+    color: rgba(255, 255, 255, .8);
+    cursor: default;
+   }
+   
+   .buttons:active {
+    background-color: #298e46;
+    box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+   }
+</style>
+
+<h2>Create Purchase Order</h2>
+
+<form method="post" id="purchase-order-form">
+  {% csrf_token %}
+  <div class="row">
+        <input type="hidden" name="status" value="ACTIVE"/>
+        <div class="vendor-input">
+            <label for="vendor">Vendor:</label>
+            <select name="vendor" id="vendor" class="form-control" required>
+                <option value="" selected disabled hidden>--Choose Vendor--</option>
+                {% for vendor in vendors %}
+                <option value="{{ vendor.id }}">{{ vendor.vendor_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="po-id-input">
+          <label for="po_id">PO ID:</label>
+          <input type="text" id="po_id" name="po_id" class="form-control"  value="{{ purchase_order.po_id }}" readonly>
+      </div>
+  </div> 
+  <div id="order_items_data">
+    <!-- Product fields in a table structure -->
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Initially, only one row is displayed -->
+        <tr class="product-row">
+          <td>
+            <select name="order_items[0][product]">
+              <option value="" selected disabled hidden>--Choose here--</option>
+              {% for product in products %}
+              <option value="{{ product.id }}">{{ product.name }}</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td><input type="number" name="order_items[0][item_price]"></td>
+          <td><input type="number" name="order_items[0][quantity]"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Buttons container to align buttons in a row -->
+  <div class="buttons-container">
+    <button type="button" class="buttons" id="add-item-btn">Add Product</button>
+    <button type="submit" class="buttons">Submit</button>
+  </div>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var poIdField = document.getElementById('po_id');
+    var addProductBtn = document.getElementById('add-item-btn');
+    var productFieldsDiv = document.getElementById('order_items_data');
+    var productCounter = {{ products|length }};
+    var orderItems = []; // Initialize an empty array to store order items
+
+    // Function to generate a unique purchase order ID
+    function generatePoId() {
+      // Implement your logic to generate a unique ID here
+      var poId = Math.floor(Math.random() * 1000000);
+      poIdField.value = poId;
+      poIdField.innerHTML = poId;
+    }
+
+    // Function to add product fields dynamically
+    function addProductFields() {
+      productCounter++;
+      var productField = document.createElement('tr');
+      productField.classList.add('product-row');
+      productField.innerHTML = `
+          <td>
+            <select name="order_items[${productCounter}][product]">
+              <option value="" selected disabled hidden>--Choose here--</option>
+              {% for product in products %}
+              <option value="{{ product.id }}">{{ product.name }}</option>
+              {% endfor %}
+            </select>
+          </td>
+          <td><input type="number" name="order_items[${productCounter}][item_price]"></td>
+          <td><input type="number" name="order_items[${productCounter}][quantity]"></td>
+      `;
+      productFieldsDiv.querySelector('tbody').appendChild(productField);
+      console.log("Product fields added:", productField);
+      console.log('Added product fields:', productCounter);
+
+      // Add the product data to the orderItems array
+      orderItems.push({
+        product: document.querySelector(`[name="order_items[${productCounter}][product]"]`).value,
+        item_price: document.querySelector(`[name="order_items[${productCounter}][item_price]"]`).value,
+        quantity: document.querySelector(`[name="order_items[${productCounter}][quantity]"]`).value
+      });
+      console.log('Order items:', orderItems);
+    }
+
+    // Event listener for the "Add Product" button
+    addProductBtn.addEventListener('click', function () {
+      addProductFields();
+    });
+
+    // Generate a unique purchase order ID initially
+    generatePoId();
+  });
+</script>
+
+{% endblock %}

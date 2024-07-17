@@ -1,0 +1,10 @@
+Process for adding product 
+    -first add product with quantity zero then get it from warehouse
+    -if product with quantity zero then display the product with out of stock
+
+
+changes to be made
+    -make quanity of the product everywhere linked with quantity of the stocks
+
+
+

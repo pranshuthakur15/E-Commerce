@@ -1,0 +1,52 @@
+{% extends 'Admin/adminLoggedin.html' %}
+
+{% block content %}
+<style>
+    .item-container {
+        margin: 120px 30px 50px 100px;
+        width: 100%;
+    }
+      .item-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+    
+      .item-table th,
+      .item-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+    
+      .item-table th {
+        background-color: #f2f2f2;
+      }
+</style>
+<h1>List Of Ordered Items</h1>
+
+<div class="item-container">
+    <div class="item-table">
+        <table class="item-table ">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Item Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for item in orderItems %}
+        <tr>
+            <td>{{ item.product }} </td>
+            <td>{% if item.item_price == 0 %} –None– {% else %} Rs.{{ item.item_price }} {% endif %}</td>
+             <td> {{item.quantity}}</td>
+        {% empty %}
+        </tr>
+        <tr>
+            <td colspan="4">No products available for this category</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    </ul>
+{% endblock %}

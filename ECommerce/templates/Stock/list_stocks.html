@@ -1,0 +1,31 @@
+{% extends 'Admin/adminLoggedin.html' %}
+
+{% block content %}
+    <div style="margin:100px 0 100px 335px;  width: 85%; height:70vh;">
+        <h1 style="align-items: center;">List of Stocks</h1>
+        <table style="border-collapse: collapse;width:100%">
+            <thead>
+                <tr style="background-color: #333; color: #fff;">
+                    <th style="padding: 10px;">Stock ID</th>
+                    <th style="padding: 10px;">Product</th>
+                    <th style="padding: 10px;">Quantity</th>
+                    <th style="padding: 10px;">HSN Code</th>
+                    <th style="padding: 10px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                    <tr style="border-bottom: 1px solid #ccc;">
+                        <td style="padding: 20px;">{{ stock.id }}</td>
+                        <td style="padding: 20px;">{{ stock.product.name }}</td>
+                        <td style="padding: 20px;">{{ stock.quantity }}</td>
+                        <td style="padding: 20px;">{{ stock.hsn_code }}</td>
+                        <td style="padding: 20px;">
+                            <a href="{% url 'UpdateStock' admin_id=admin.id stock_id=stock.id %}">Update</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

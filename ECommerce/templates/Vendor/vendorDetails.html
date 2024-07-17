@@ -1,0 +1,52 @@
+{% extends "Admin/adminLoggedin.html" %}
+{% block content %}
+<style>
+  .vendor-details {
+    margin: 60px 30px 50px 350px;
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #CCD0CF;
+
+  }
+
+  .vendor-details h2 {
+    margin:50px auto;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+
+  .vendor-details p {
+    margin-bottom: 10px;
+  }
+
+  .purchase-order-btn {
+    display: block;
+    width: 150px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    margin: 20px auto;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .purchase-order-btn:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<div class="vendor-details">
+  <h2>Vendor Details</h2>
+  <p><strong>Name:</strong> {{ vendor.vendor_name }}</p>
+  <p><strong>Email:</strong> {{ vendor.vendor_email }}</p>
+  <p><strong>Mobile:</strong> {{ vendor.vendor_mobile }}</p>
+  <p><strong>Address:</strong> {{ vendor.vendor_address }}</p>
+  <a href="{% url 'purchaseOrderList' admin_id=admin.id vendor_id=vendor.id %}" class="purchase-order-btn">Purchase Order</a>
+</div>
+{% endblock %}

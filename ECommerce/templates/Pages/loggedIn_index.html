@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E-Commerce{% endblock %}</title>
+    <style>
+
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+            body {
+                background-color: #CCD0CF;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            /* Header Styles */
+            header {
+                background-color: #9ba8ab; 
+                color: #504c4c; 
+                padding: 20px 0;
+                text-align: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000; 
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #4D676D;
+                padding: 10px;
+                position: fixed;
+                top: 60px; 
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+            }
+            .left-links, .right-links {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            .left-links li, .right-links li {
+                display: inline;
+                margin-right: 20px;
+            }
+            .left-links li{
+                margin-left:20px;
+            }
+            .right-links {
+                margin-left: auto;
+            }
+            nav ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            nav ul li {
+                background-color: #4D676D;
+                color: #EAEAEA;
+                display: inline;
+                margin-right: 20px;
+            }
+            nav a {
+                text-decoration: none;
+                color: #EAEAEA;
+                font-weight: bold;
+                padding: 10px;
+                transition: background-color 0.3s ease;
+            }
+            nav a:hover {
+                background-color: #3C6D78;
+                border-radius: 5px;
+            }
+            /* Search Bar Styles */
+            .search-bar {
+                margin: 20px auto;
+                width: 50%;
+                text-align: center;
+                min-height: 50px;
+            }
+            .search-bar input[type="text"] {
+                padding: 10px;
+                width: 50%;
+                font-size: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin-right: 10px;
+            }
+            .search-bar button {
+                padding: 10px 20px;
+                font-size: 1rem;
+                border: none;
+                background-color: #333;
+                color: #fff;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            /* Product Styles */
+            .alert{
+                position: absolute;
+                top: 20px; 
+                right: 20px; 
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                z-index: 1000;
+                animation: fadeOut 2s ease-in-out forwards ;
+            }
+
+            @keyframes fadeOut {
+                0% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    display: none;
+                }
+            }
+
+            .success{
+                background-color: #4CAF50; /* Green */
+            }
+
+            .warning{
+                background-color: #EDE04D; /* Orange */
+            }
+
+            .danger{
+                background-color: #ED4F32; /* Red */
+            }
+            .products-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                padding: 180px 20px 50px;
+            }
+    
+            .product {
+                flex: 0 0 calc(33.33% - 20px);
+                background-color: #fff;
+                margin-bottom: 20px;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                height: 400px; /* Set a fixed height for each product container */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            
+            .product img {
+                max-width: 100%;
+                max-height: 50%; 
+                margin: auto; 
+            }
+    
+            .product h2 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+    
+            .product p {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+    
+            .product button {
+                padding: 10px 20px;
+                font-size: 1rem;
+                border: none;
+                background-color: #333;
+                color: #fff;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            /* Footer Styles */
+            footer {
+                background-color: #9ba8ab;
+                color: #EAEAEA;
+                text-align: center;
+                padding: 20px 0;
+                margin-top: auto;
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                z-index: 1000;
+            }
+            footer ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            footer ul li {
+                color: #EAEAEA;
+                display: inline;
+                margin-right: 20px;
+            }
+            footer ul li a {
+
+                color: #504c4c;
+                text-decoration: none;
+            } 
+           
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'loggedIn_index' costumer_id=costumer.id %}" style="text-decoration: none; color: #504c4c;">E-Commerce</a></h1>
+    </header>
+    {% block content %}
+ 
+    <nav>
+        
+        <ul class="left-links">
+            <li><a href="{% url 'loggedIn_index' costumer_id=costumer.id %}">Home</a></li>
+            <li><a href="{% url 'logged_in_all_products'  costumer_id=costumer.id %}">Products</a></li>
+            <li><a href="{% url 'about_us_loggedIn' costumer_id=costumer.id %}">About</a></li>
+            <li><a href="{% url 'contact_us_loggedIn' costumer_id=costumer.id %}">Contact</a></li>
+        </ul>
+        <div class="search-bar">
+            <form class="search-form" action="{% url 'search' %}" method="GET">
+                <input type="text" name="search" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <ul class="right-links">
+            <li>HELLO , {{costumer.first_name}}</li>
+            <li><a href="{% url 'cart' costumer_id=costumer.id%}"><i class="fa fa-shopping-cart"></i> Cart <span>{{ cart_items_count }}</span></a></li>
+            <li><a href="{% url 'login' %}">Logout</a></li>
+        </ul>
+       
+    </nav>
+    <div class="products-container">
+         <!-- Alert Section -->
+         {% if messages %}
+         <div class="alert success">
+             <ul>
+                 {% for message in messages %}
+                 <li>{{ message }}</li>
+                 {% endfor %}
+             </ul>
+         </div>
+         {% endif %}
+        {% for product in page_obj %}
+        <div class="product">
+            {% if product.images %}
+            <img src="{{ product.images.0 }}" alt="{{ product.name }}" style="max-width: 100%;">
+            {% else %}
+            <p>No image available</p>
+            {% endif %}
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description }}</p>
+            <p>Price: Rs.{{ product.price }}</p>
+            <form action="{% url 'add_to_cart' product_id=product.id costumer_id=costumer.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+        {% endfor %}
+
+        <div class="pagination" style="margin:20px 0px 20px 9px; text-align: center;">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&costumer_id={{ costumer.id }}" style="padding: 5px 10px; background-color: #ccc; color: #333; text-decoration: none; margin-right: 5px;">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}&costumer_id={{ costumer.id }}" style="padding: 5px 10px; background-color: #ccc; color: #333; text-decoration: none; margin-right: 5px;">Previous</a>
+            {% endif %}
+            
+            <span class="current" style="padding: 5px 10px; background-color: #f0f0f0; color: #333; margin-right: 5px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&costumer_id={{ costumer.id }}" style="padding: 5px 10px; background-color: #ccc; color: #333; text-decoration: none; margin-right: 5px;">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&costumer_id={{ costumer.id }}" style="padding: 5px 10px; background-color: #ccc; color: #333; text-decoration: none; margin-right: 5px;">Last</a>
+            {% endif %}
+        </div>
+        
+    </div>
+       
+      
+    {% endblock %}
+    <footer>
+        <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">WhatsApp</a></li>
+            <li><a href="{% url 'contact_us_messages' %}">Mail</a></li>
+        </ul>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends 'Admin/adminLoggedin.html' %}
+
+{% block title %}Material Receipt List{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin:100px 0 40px 350px;">
+    <h2 style="color: #333; margin-bottom: 20px; padding:10px">Material Receipt List</h2>
+    {% if purchaseOrder %}
+        <div style="display: inline-block;">
+            {% for Order in purchaseOrder %}
+                {% if not Order.MRMcreated %}
+                <form method="get" action="{%url 'materialRequest' admin_id=admin.id  po_id=Order.po_id  %}" style="margin: 10px; display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="vendor_id" value="{{ Order.po_id }}">
+                    <button style="padding: 10px 20px; background-color: #4CAF50; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-bottom: 10px;">{{ Order.po_id}}</button>
+                </form>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No Purchase Order Found.</p>
+    {% endif %}
+</div>
+{% endblock %}

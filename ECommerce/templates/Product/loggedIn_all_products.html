@@ -1,0 +1,38 @@
+{% extends 'Pages/loggedIn_index.html' %}
+
+{% block title %} Cart {% endblock %}
+{% block content %}
+
+<style>
+    .products-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 30px 20px 50px;
+    }
+</style>
+
+<h1 style="padding-top:10vh;text-align: center;">All Products</h1>
+<div class="products-container">
+    {% for product in page_obj %}
+    <div class="product">
+        {% if product.images %}
+        <img src="{{ product.images.0 }}" alt="{{ product.name }}" style="max-width: 100%;">
+        {% else %}
+        <p>No image available</p>
+        {% endif %}
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Price: Rs.{{ product.price }}</p>
+
+        <form action="{% url 'add_to_cart' product_id=product.id costumer_id=costumer.id %}" method="POST">
+
+            {% csrf_token %}
+            <button type="submit">Add to Cart</button>
+        </form>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

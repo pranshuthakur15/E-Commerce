@@ -1,0 +1,12 @@
+{% extends 'Pages/index.html' %}
+{% block content %}
+    
+    <h1>Products by Category</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - ${{ product.price }}</li>
+        {% empty %}
+            <li>No products available for this category</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

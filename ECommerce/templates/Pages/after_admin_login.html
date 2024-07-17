@@ -1,0 +1,23 @@
+{% extends 'Pages/index.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+    <div style="display: flex; justify-content: center; align-items: center; height: 88vh;">
+        <div style="padding-top: 10vh; background-color: #f9f9f9; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 60%; text-align: center; width:100%;height:100%;">
+            <h1 style="font-size:2rem; margin-bottom: 20px;">Welcome Admin!</h1>
+            <div style="margin-top: 20px;">
+                <a href="{% url 'AddStocks' %}" style="text-decoration: none; display: block;">
+                    <button style="background-color: #333; color: #fff; padding: 20px 35px; border-radius: 8px; cursor: pointer; border: none; outline: none; transition: background-color 0.3s; margin-bottom: 3rem;">Add Stocks</button>
+                </a>
+                <a href="{% url 'AddCategory' %}" style="text-decoration: none; display: block;">
+                    <button style="background-color: #333; color: #fff; padding: 20px 35px; border-radius: 8px; cursor: pointer; border: none; outline: none; transition: background-color 0.3s; margin-bottom: 3rem;">Add Category</button>
+                </a>
+                <a href="{% url 'AddSubCategory' %}" style="text-decoration: none; display: block;">
+                    <button style="background-color: #333; color: #fff; padding: 20px 35px; border-radius: 8px; cursor: pointer; border: none; outline: none; transition: background-color 0.3s; margin-bottom: 3rem;">Add Subcategory</button>
+                </a>
+                <a href="{% url 'AddProduct' %}" style="text-decoration: none; display: block;">
+                    <button style="background-color: #333; color: #fff; padding: 20px 35px; border-radius: 8px; cursor: pointer; border: none; outline: none; transition: background-color 0.3s;">Add Product</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

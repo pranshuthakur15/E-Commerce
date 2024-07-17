@@ -1,0 +1,28 @@
+{% extends 'Admin/adminLoggedin.html' %}
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center;margin:100px 0 40px 300px; height: auto;width:85vw">
+    <div style="text-align: center; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); background-color: #CCD0CF; height:100%;width:100%">
+        <h1 style="padding-top:10vh;font-size: 2.5rem; color: #333; margin-bottom: 30px;">Add Sub-Category</h1>
+        <form method="post" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                {% csrf_token %}
+                <div style="flex-basis: 100%; margin-bottom: 20px;">
+                    <label for="name" style="font-size: 1.2rem; color: #333;">Name:</label><br>
+                    <input type="text" id="name" name="name" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 50%;">
+                </div>
+                
+                <div style="flex-basis: 100%; margin-bottom: 20px;">
+                    <label for="category" style="font-size: 1.2rem; color: #333;">Category:</label><br>
+                    <select id="category" name="category" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 50%;">
+                        {% for category in categories %}
+                        <option value="" selected disabled hidden>--Choose here--</option>
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="flex-basis: 100%; margin-bottom: 20px;">
+                <button type="submit" style="background-color: #333; color: #fff; padding: 10px 20px; border-radius: 5px;">Add Subcategory</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

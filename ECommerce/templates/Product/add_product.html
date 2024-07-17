@@ -1,0 +1,47 @@
+{% extends 'Admin/adminLoggedin.html' %}
+{% block content %}
+    <div style="display: flex; justify-content: center; align-items: center;margin:100px 0 40px 300px; height:auto;width:85vw">
+        <div style="text-align: center; padding: 80px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); background-color: #CCD0CF;height:100%; width: 100%;">
+            <h1 style="font-size: 2.5rem; color: #333; margin-bottom: 30px;">Add Product</h1>
+            <form method="post" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                {% csrf_token %}
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="name" style="font-size: 1.2rem; color: #333;">Name:</label><br>
+                    <input type="text" id="name" name="name" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="hsn_code" style="font-size: 1.2rem; color: #333;">HSN Code:</label><br>
+                    <input type="text" id="hsn_code" name="hsn_code" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="category" style="font-size: 1.2rem; color: #333;">Category:</label><br>
+                    <select id="category" name="category" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                        <option value="" selected disabled hidden>--Choose here--</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="subcategory" style="font-size: 1.2rem; color: #333;">Subcategory:</label><br>
+                    <select id="subcategory" name="subcategory" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                        <option value="" selected disabled hidden>--Choose here--</option>
+                        {% for subcategory in subcategories %}
+                            <option value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div style="flex-basis: 100%; margin-bottom: 20px;">
+                    <label for="description" style="font-size: 1.2rem; color: #333;">Description:</label><br>
+                    <textarea id="description" name="description" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;"></textarea>
+                </div>
+                <div style="flex-basis: calc(50% - 20px); margin-bottom: 20px;">
+                    <label for="price" style="font-size: 1.2rem; color: #333;">Price:</label><br>
+                    <input type="text" id="price" name="price" style="padding: 10px; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; width: 100%;">
+                </div>
+                <button type="submit" style="background-color: #333; color: #fff; padding: 15px 30px; border-radius: 5px; font-size: 1.2rem; border: none; cursor: pointer; width: 100%;">Add Product</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

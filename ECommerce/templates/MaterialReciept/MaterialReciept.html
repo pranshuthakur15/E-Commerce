@@ -1,0 +1,198 @@
+{% extends 'Admin/adminLoggedin.html' %}
+
+{% block content %}
+<style>
+    
+form {
+    margin: 100px 20px 30px 370px;
+    width: 80%;
+  }
+  
+ 
+  h1, h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 10px;
+  }
+  
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+ 
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  .purchase-order-details {
+    margin-bottom: 40px;
+}
+
+.purchase-order-details h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.detail-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.detail-label {
+    flex: 1;
+    font-size: 16px;
+    color: #666;
+    margin-right: -60px; 
+}
+
+.detail-value {
+    flex: 1;
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+    margin-right: 10px; 
+}
+</style>
+<form method="post" id="mrm-form">
+    {% csrf_token %}
+    <div class="purchase-order-details">
+    <h2>Purchase Order Details</h2>
+    <div class="detail-row">
+        <div class="detail-label">Purchase Order ID:</div>
+        <div class="detail-value">{{ purchase_order.po_id }}</div>
+        <div class="detail-label">Vendor:</div>
+        <div class="detail-value">{{ purchase_order.vendor.vendor_name }}</div>
+        <div class="detail-label">Status:</div>
+        <div class="detail-value">{{ purchase_order.status }}</div>
+        <div class="detail-label">Created At:</div>
+        <div class="detail-value">{{ purchase_order.created_at }}</div>
+    </div>
+</div>
+    <!-- Display product details and input fields for MRM items -->
+    <h2>Products</h2>
+    <table id="product-table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>  
+                <th>Price Offered</th>
+                <th>Discount Offered</th>
+                <th>Quantity Offered</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_item in purchase_order.orderitem_set.all %}
+            <tr>
+                <td>{{ order_item.product.name }}</td>
+                <td>{{ order_item.item_price }}</td>
+                <td>{{ order_item.quantity }}</td>
+                <td><input type="number" class="price-offered" name="price_offered_{{ order_item.id }}" required></td>
+                <td><input type="number" class="discount-offered" name="discount_offered_{{ order_item.id }}" required></td>
+                <td><input type="number" class="quantity-offered" name="quantity_offered_{{ order_item.id }}" required></td>
+                <td class="total">0</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" style="text-align: left;">Subtotal</td>
+                <td id="subtotal">0</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: left;"><label for="mode_of_payment">Mode of Payment:</label></td>
+                <td colspan="2">
+                    <select name="mode_of_payment" id="mode_of_payment" required>
+                        <option value="" disabled selected>-- Select Mode of Payment --</option>
+                        {% for choice in modeOfPayment %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>    
+        </tfoot>
+    </table>
+    <input type="hidden" name="subtotal" id="subtotal-input">
+    <button type="submit">Create MRM</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to calculate the total for each product row
+    function calculateTotal() {
+        var rows = document.querySelectorAll('#product-table tbody tr');
+        var subtotal = 0;
+
+        rows.forEach(function(row) {
+            var price = parseFloat(row.cells[1].textContent);
+            var quantity = parseFloat(row.cells[2].textContent);
+            var priceOffered = parseFloat(row.querySelector('.price-offered').value);
+            var discountOffered = parseFloat(row.querySelector('.discount-offered').value);
+            var quantityOffered = parseFloat(row.querySelector('.quantity-offered').value);
+
+            var discountPercentage = discountOffered / 100;
+
+            // Calculate the discounted price
+            var discountedPrice = priceOffered - (priceOffered * discountPercentage);
+
+            var total = discountedPrice * quantityOffered;
+            
+            row.querySelector('.total').textContent = total.toFixed(2);
+
+            subtotal += total;
+        });
+
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        document.getElementById('subtotal-input').value = subtotal.toFixed(2); 
+
+    }
+
+
+
+    //To Calculate total when page loads
+    calculateTotal();
+
+    //To Calculate total when inputs change
+    document.getElementById('product-table').addEventListener('input', calculateTotal);
+});
+</script>
+{% endblock %}
