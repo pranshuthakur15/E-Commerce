@@ -140,7 +140,7 @@ EMAIL_HOST = 'mail27.skylabstech.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER= 'pranshu@skylabstech.com'
-EMAIL_HOST_PASSWORD = 'Hello@1234'
+
 
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
